@@ -150,6 +150,22 @@ body {
   animation-duration: 2s;
 }
 
+@media (max-width: 767px) {
+  .header-auto-hide {
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .header-auto-hide.header-auto-hide--hidden {
+    transform: translateY(calc(-100% - var(--header-offset) - 0.5rem));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-auto-hide {
+    transition: none;
+  }
+}
+
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;

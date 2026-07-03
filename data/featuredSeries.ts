@@ -5,7 +5,7 @@ export const siteConfig = {
   tagline: "Discover films worth watching.",
   description:
     "A premium movie discovery experience powered by TMDb. Explore trending films, new releases, franchises, and build your personal watchlist.",
-  url: "https://frame.example.com",
+  url: "https://frame-films.vercel.app",
 };
 
 export const featuredSeries: FeaturedSeries[] = [

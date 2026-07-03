@@ -155,9 +155,10 @@ function HomeError() {
     <Container className="flex min-h-[60vh] flex-col items-center justify-center py-20 text-center">
       <h1 className="text-2xl font-semibold text-white">Unable to load movies</h1>
       <p className="mt-3 max-w-md text-sm text-zinc-400">
-        Check that your TMDb API credentials are set in{" "}
-        <code className="rounded bg-white/5 px-1.5 py-0.5 text-zinc-300">.env.local</code> and try
-        again.
+        Movie data couldn&apos;t be loaded. If you&apos;re running locally, add{" "}
+        <code className="rounded bg-white/5 px-1.5 py-0.5 text-zinc-300">TMDB_API_KEY</code> to{" "}
+        <code className="rounded bg-white/5 px-1.5 py-0.5 text-zinc-300">.env.local</code>. On
+        Vercel, set the same variable in Project Settings → Environment Variables, then redeploy.
       </p>
     </Container>
   );

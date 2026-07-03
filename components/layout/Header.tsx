@@ -7,6 +7,7 @@ import { FormEvent, useCallback, useState } from "react";
 import { FrameLogo } from "@/components/layout/FrameLogo";
 import { HeaderQuickLinks } from "@/components/layout/HeaderQuickLinks";
 import { MobileNav, MobileNavToggle } from "@/components/layout/MobileNav";
+import { useMobileHeaderHide } from "@/hooks/useMobileHeaderHide";
 import { sanitizeSearchQuery } from "@/lib/tmdb";
 import { cn } from "@/lib/utils";
 
@@ -29,10 +30,16 @@ export function Header() {
   }
 
   const isWatchlistActive = pathname === "/watchlist";
+  const isHeaderHidden = useMobileHeaderHide(isMobileNavOpen);
 
   return (
     <>
-      <header className="safe-top pointer-events-none fixed inset-x-0 top-0 z-30 px-5 pt-[var(--header-offset)] sm:px-6 lg:px-8">
+      <header
+        className={cn(
+          "header-auto-hide safe-top pointer-events-none fixed inset-x-0 top-0 z-30 px-5 pt-[var(--header-offset)] sm:px-6 lg:px-8",
+          isHeaderHidden && "header-auto-hide--hidden",
+        )}
+      >
         <nav
           aria-label="Main navigation"
           className="pointer-events-auto nav-glass mx-auto flex h-14 w-full max-w-7xl items-center gap-3 rounded-[1.125rem] border border-white/[0.07] px-3 sm:gap-4 sm:px-4 lg:h-[3.75rem] lg:gap-6"
