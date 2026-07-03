@@ -4,6 +4,7 @@ import { SearchFilters } from "@/components/movie/SearchFilters";
 import { SearchResults } from "@/components/movie/SearchResults";
 import { Container } from "@/components/ui/Container";
 import { SkeletonGrid } from "@/components/ui/SkeletonCard";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Search Movies",
@@ -23,10 +24,11 @@ export default async function SearchPage({
   }>;
 }) {
   const params = await searchParams;
+  const hasTextQuery = Boolean(params.q?.trim());
 
   return (
     <Container className="page-top page-y">
-      <div className="section-head">
+      <div className={cn("section-head", hasTextQuery && "hidden md:block")}>
         <p className="mb-2 text-xs font-medium tracking-[0.2em] text-violet-400/80 uppercase">
           Discover
         </p>
@@ -36,11 +38,13 @@ export default async function SearchPage({
         </p>
       </div>
 
-      <Suspense fallback={<div className="skeleton-shimmer mb-8 h-40 rounded-2xl" />}>
-        <SearchFilters />
-      </Suspense>
+      <div className={cn(hasTextQuery && "hidden md:block")}>
+        <Suspense fallback={<div className="skeleton-shimmer mb-8 h-40 rounded-2xl" />}>
+          <SearchFilters />
+        </Suspense>
+      </div>
 
-      <div className="mt-10">
+      <div className={cn(hasTextQuery ? "mt-0 md:mt-10" : "mt-10")}>
         <Suspense fallback={<SkeletonGrid count={10} />}>
           <SearchResults searchParams={params} />
         </Suspense>

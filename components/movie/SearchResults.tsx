@@ -2,6 +2,7 @@ import type { Movie, SearchResult } from "@/types/movie";
 import Link from "next/link";
 import { MovieGrid } from "@/components/movie/MovieGrid";
 import { Button } from "@/components/ui/Button";
+import { cn } from "@/lib/utils";
 import {
   discoverMovies,
   getMovieGenres,
@@ -21,13 +22,13 @@ type SearchResultsProps = {
   };
 };
 
-function PersonResults({ results }: { results: SearchResult[] }) {
+function PersonResults({ results, moviesOnly }: { results: SearchResult[]; moviesOnly?: boolean }) {
   const people = results.filter((item) => item.media_type === "person");
 
   if (people.length === 0) return null;
 
   return (
-    <div className="mb-10">
+    <div className={cn("mb-10", moviesOnly && "hidden md:block")}>
       <h2 className="section-head text-lg font-semibold text-white">People</h2>
       <ul className="grid grid-gap sm:grid-cols-2 lg:grid-cols-3">
         {people.slice(0, 6).map((person) => (
@@ -101,7 +102,7 @@ export async function SearchResults({ searchParams: params }: SearchResultsProps
 
   return (
     <>
-      {people.length > 0 && <PersonResults results={people} />}
+      {people.length > 0 && <PersonResults results={people} moviesOnly={query.length > 0} />}
 
       <div className="mb-8 flex items-center justify-between">
         <p className="text-sm text-zinc-500">
