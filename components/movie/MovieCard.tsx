@@ -14,11 +14,15 @@ type MovieCardProps = {
   genres?: { id: number; name: string }[];
   priority?: boolean;
   index?: number;
+  returnQuery?: string;
 };
 
-export function MovieCard({ movie, genres, priority = false, index = 0 }: MovieCardProps) {
+export function MovieCard({ movie, genres, priority = false, index = 0, returnQuery }: MovieCardProps) {
   const mounted = useMounted();
   const movieGenres = genres?.filter((g) => movie.genre_ids?.includes(g.id)).slice(0, 2) ?? movie.genres?.slice(0, 2) ?? [];
+  const movieHref = returnQuery
+    ? `/movie/${movie.id}?q=${encodeURIComponent(returnQuery)}`
+    : `/movie/${movie.id}`;
 
   return (
     <motion.article
@@ -29,7 +33,7 @@ export function MovieCard({ movie, genres, priority = false, index = 0 }: MovieC
       whileHover={{ y: -4 }}
       className="group"
     >
-      <Link href={`/movie/${movie.id}`} className="block rounded-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7365f0]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#06060a]">
+      <Link href={movieHref} className="block rounded-[13px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#7365f0]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-[#06060a]">
         <div className="relative aspect-[2/3] overflow-hidden rounded-[13px] bg-[#0e0d14] ring-1 ring-white/[0.06] transition-[box-shadow,ring-color] duration-300 ease-out group-hover:ring-white/[0.12] group-hover:shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
           <Image
             src={getImageUrl(movie.poster_path, "poster", "md")}

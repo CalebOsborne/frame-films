@@ -116,7 +116,7 @@ export async function SearchResults({ searchParams: params }: SearchResultsProps
         </p>
       </div>
 
-      <MovieGrid movies={movies} genres={genres} />
+      <MovieGrid movies={movies} genres={genres} returnQuery={query || undefined} />
 
       {totalPages > page && (
         <div className="mt-10 flex justify-center">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Bookmark, Search } from "lucide-react";
+import { Bookmark, Home, Search, X } from "lucide-react";
 import { FormEvent, useCallback, useState } from "react";
 import { FrameLogo } from "@/components/layout/FrameLogo";
 import { HeaderQuickLinks } from "@/components/layout/HeaderQuickLinks";
@@ -30,7 +30,18 @@ export function Header() {
   }
 
   const isWatchlistActive = pathname === "/watchlist";
-  const isHeaderHidden = useMobileHeaderHide(isMobileNavOpen);
+  const isMoviePage = pathname.startsWith("/movie/");
+  const returnQuery = searchParams.get("q");
+
+  function handleMovieBack() {
+    if (returnQuery) {
+      router.push(`/search?q=${encodeURIComponent(returnQuery)}`);
+      return;
+    }
+    router.back();
+  }
+
+  const isHeaderHidden = useMobileHeaderHide(isMobileNavOpen || isMoviePage);
 
   return (
     <>
@@ -44,7 +55,18 @@ export function Header() {
           aria-label="Main navigation"
           className="pointer-events-auto nav-glass mx-auto flex h-14 w-full max-w-7xl items-center gap-3 rounded-[1.125rem] border border-white/[0.07] px-3 sm:gap-4 sm:px-4 lg:h-[3.75rem] lg:gap-6"
         >
-          <FrameLogo />
+          {isMoviePage ? (
+            <button
+              type="button"
+              onClick={handleMovieBack}
+              className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-black/30 text-zinc-300 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white md:hidden"
+              aria-label={returnQuery ? "Back to search results" : "Go back"}
+            >
+              <X className="h-5 w-5" aria-hidden="true" />
+            </button>
+          ) : null}
+
+          <FrameLogo className={cn(isMoviePage && "hidden md:flex")} />
 
           <div className="relative z-[1] hidden min-w-0 flex-1 items-center gap-4 md:flex lg:gap-6">
             <HeaderQuickLinks pathname={pathname} currentSort={currentSort} />
@@ -83,7 +105,17 @@ export function Header() {
             >
               <Bookmark className="h-4 w-4" aria-hidden="true" />
             </Link>
-            <MobileNavToggle isOpen={isMobileNavOpen} onToggle={toggleMobileNav} />
+            {isMoviePage ? (
+              <Link
+                href="/"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/30 text-zinc-300 backdrop-blur-sm transition-colors hover:bg-white/10 hover:text-white md:hidden"
+                aria-label="Home"
+              >
+                <Home className="h-5 w-5" aria-hidden="true" />
+              </Link>
+            ) : (
+              <MobileNavToggle isOpen={isMobileNavOpen} onToggle={toggleMobileNav} />
+            )}
           </div>
         </nav>
       </header>

@@ -4,9 +4,10 @@ import type { Movie } from "@/types/movie";
 type MovieGridProps = {
   movies: Movie[];
   genres?: { id: number; name: string }[];
+  returnQuery?: string;
 };
 
-export function MovieGrid({ movies, genres }: MovieGridProps) {
+export function MovieGrid({ movies, genres, returnQuery }: MovieGridProps) {
   if (movies.length === 0) {
     return (
       <div className="flex min-h-[240px] flex-col items-center justify-center rounded-2xl border border-dashed border-white/10 bg-white/[0.02] px-6 py-12 text-center">
@@ -21,7 +22,7 @@ export function MovieGrid({ movies, genres }: MovieGridProps) {
   return (
     <div className="grid grid-cols-2 grid-gap sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
       {movies.map((movie, index) => (
-        <MovieCard key={movie.id} movie={movie} genres={genres} index={index} />
+        <MovieCard key={movie.id} movie={movie} genres={genres} index={index} returnQuery={returnQuery} />
       ))}
     </div>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SearchFilters } from "@/components/movie/SearchFilters";
+import { MobileSearchBar } from "@/components/movie/MobileSearchBar";
 import { SearchResults } from "@/components/movie/SearchResults";
 import { Container } from "@/components/ui/Container";
 import { SkeletonGrid } from "@/components/ui/SkeletonCard";
@@ -45,6 +46,7 @@ export default async function SearchPage({
       </div>
 
       <div className={cn(hasTextQuery ? "mt-0 md:mt-10" : "mt-10")}>
+        {hasTextQuery && <MobileSearchBar defaultQuery={params.q ?? ""} />}
         <Suspense fallback={<SkeletonGrid count={10} />}>
           <SearchResults searchParams={params} />
         </Suspense>
